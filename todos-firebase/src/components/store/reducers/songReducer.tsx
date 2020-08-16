@@ -7,7 +7,9 @@ const initialState: TodosState = {
         { id: 1, title: '123', completed: false }
     ],
     loading: false,
-    error: false
+    error: false,
+    filtered: 'null',
+    search:'null'
 }
 
 const songsReducers: Reducer<TodosState> = (state = initialState, action) => {

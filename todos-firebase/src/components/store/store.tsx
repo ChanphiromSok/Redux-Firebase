@@ -5,10 +5,8 @@ import rootReducer from './reducers/rootReducers';
 import { TodosState } from './types';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 // import {RootReducerState} from './reducers/rootReducers'
-
 // import createSagaMiddleware   from 'redux-saga'
 // const sagaMiddlware = createSagaMiddleware();
-
 
 // this interface is point to the each children of rootReducer so
 export interface ApplicationState{
@@ -22,8 +20,6 @@ const store: Store<ApplicationState> = createStore(
 )
 export default store;
 // sagaMiddlware.run(rootSaga)
-
-
 export const TypedUseTodos: TypedUseSelectorHook<ApplicationState> = useSelector;
 export const TypeUseSongs: TypedUseSelectorHook<ApplicationState> = useSelector;
 

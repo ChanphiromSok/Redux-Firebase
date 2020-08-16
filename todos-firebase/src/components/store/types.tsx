@@ -5,10 +5,11 @@ export enum TodoTypes{
     FETCH_FAILURE = "FETCH_FAILURE",
 
     ADD_TODO = "ADD_TODO",
-    DELETE_TODO = "DELETE_TODO"
+    DELETE_TODO = "DELETE_TODO",
+    FILTER_TODOS = "FILTER_TODOS"
     
 }
-// export type ActionTypes = TodoTypes.FETCH_TODOS | TodoTypes.ADD_TODO | TodoTypes.DELETE_TODO; 
+export type ActionTypes = TodoTypes.FETCH_REQUEST | TodoTypes.FETCH_SUCCESS | TodoTypes.FETCH_FAILURE | TodoTypes.FILTER_TODOS; 
 // Data Type
 export interface Todos{
     id: number
@@ -20,6 +21,7 @@ export interface TodosState{
     todos: Todos[]
     loading: boolean
     error: boolean
-    // filtered: Todos[]
+    filtered: string 
+    search: string
 }
 
