@@ -6,7 +6,10 @@ export enum TodoTypes{
 
     ADD_TODO = "ADD_TODO",
     DELETE_TODO = "DELETE_TODO",
-    FILTER_TODOS = "FILTER_TODOS"
+    FILTER_TODOS = "FILTER_TODOS",
+
+
+    SONG = "SONG"
     
 }
 export type ActionTypes = TodoTypes.FETCH_REQUEST | TodoTypes.FETCH_SUCCESS | TodoTypes.FETCH_FAILURE | TodoTypes.FILTER_TODOS; 

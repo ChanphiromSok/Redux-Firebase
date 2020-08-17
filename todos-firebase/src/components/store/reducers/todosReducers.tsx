@@ -4,11 +4,10 @@ import { Reducer } from 'redux';
 
 import { TodosState ,TodoTypes} from '../types';
 const initialState: TodosState = {
-    todos: [
-        { id: 1, title: 'wash the dish', completed: false }],
+    todos: [],
     loading: false,
     error: false,
-    filtered: '',
+    filtered: '',  
     search: ''
 };
 
@@ -19,18 +18,6 @@ const todosReducers: Reducer<TodosState> = (state = initialState, action) => {
                 ...state,
                 todos: action.payload,
                 loading: false
-            }
-        case TodoTypes.FETCH_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                error: false,
-            }
-        case TodoTypes.FETCH_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: true
             }
         case TodoTypes.FILTER_TODOS:
             return {

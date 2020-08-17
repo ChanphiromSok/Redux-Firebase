@@ -1,23 +1,23 @@
 import React, { useEffect } from 'react';
 import { useDispatch ,useSelector} from 'react-redux';
-import { TypedUseTodos } from './components/store/ShareData';
-import { fetchTodos } from './components/store/actions/TodoAction';
+import {fetchFirebase } from './components/store/actions/TodoAction';
 import FilterTodos from './FilterTodos';
-import { filterTodosSelector } from './components/store/ShareData';
-
-
+import {loadingSelector,filterTodosSelector } from './components/store/ShareData';
+import FormTodo from './components/form/FormTodo';
 const App: React.FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchTodos())
+    dispatch(fetchFirebase());
+    
  },[dispatch])
-  const todos = TypedUseTodos(state => state.todosReducer.todos)
-  const data = useSelector(filterTodosSelector)
-
+  const datas = useSelector(filterTodosSelector)
+  const loading = useSelector(loadingSelector);
   return (
     <div className="App">
+      <FormTodo />
       <FilterTodos />
-      {data.map(todo => (<h1 key={todo.id}>{todo.title} {todo.id}</h1>))}
+      {loading ? (<h1>No Data</h1>) :
+      datas.map(todo => (<h1 key={todo.id}>{todo.title}</h1>))}
     </div>
   );
 }
@@ -38,4 +38,6 @@ export default App;
 //    ***can map data***
 // const todos = useSelector(getTodos)
 
-  // const rs = TypedUseTodos(getTodosSelector); check it in ShareData.tsx
+// 11  import { TypedUseTodos } from './components/store/ShareData';
+// 11  const rs = TypedUseTodos(getTodosSelector); check it in ShareData.tsx
+// 11  const todos = TypedUseTodos(state => state.todosReducer.todos)

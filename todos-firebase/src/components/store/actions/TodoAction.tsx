@@ -1,22 +1,30 @@
 import { Dispatch } from 'redux';
-// import { fetchRequest } from '../actions';
+import firebase from '../../../firebase';
 import axios from 'axios';
-import { Todos,TodoTypes } from '../types';
+import { Todos, TodoTypes } from '../types';
 
-// export const fetchTodos = () => ({
-//     type: "FETCH_SUCCESS",
-//     payload: {id:1,title:'aasdf',completed:false}
-// })
-interface jsonTodo{
+
+export const filterTodosAction = (text: string) => ({
+    type: TodoTypes.FILTER_TODOS,
+    payload: text
+})
+interface IFetchTodosJSON {
     type: TodoTypes.FETCH_REQUEST
     payload: Todos[]
 }
-export const fetchTodos = () => {
+interface IFetchTodos{
+    type: TodoTypes.FETCH_REQUEST,
+    payload: firebase.firestore.DocumentData[];
+}
+interface IAddTodo{
+    type: TodoTypes.ADD_TODO
+}
+export const fetchTodos = () => { // this func is for testing only
     const url = "https://jsonplaceholder.typicode.com/todos";
-    return async (dispatch:Dispatch) => {
+    return async (dispatch: Dispatch) => {
         const res = await axios.get<Todos[]>(url);
         try {
-            dispatch<jsonTodo>({
+            dispatch<IFetchTodosJSON>({
                 type: TodoTypes.FETCH_REQUEST,
                 payload: res.data
             })
@@ -28,9 +36,35 @@ export const fetchTodos = () => {
             console.log(error.message)
         }
     }
+} // NOT FIREBASE
+
+const db = firebase.firestore();
+
+export const fetchFirebase = () => {
+    return async (dispatch: Dispatch) =>{
+        db.collection('todos').onSnapshot(snapShot => {
+        const getTodos = snapShot.docs.map((doc) => doc.data())
+        dispatch<IFetchTodos>({
+            type: TodoTypes.FETCH_REQUEST,
+            payload: getTodos
+        })
+    });
+}
+}
+export const addTodo = (todo: Todos) => {
+    return async (dispatch: Dispatch) => {
+        db.collection('todos').doc().set(todo)
+        dispatch<IAddTodo>({
+            type: TodoTypes.ADD_TODO
+        })
+    }
 }
 
-export const filterTodosAction = (text: string) => ({
-    type: TodoTypes.FILTER_TODOS,
-    payload : text
-})
+export const deleteTodo = (id: string) => {
+    return async (dispatch: Dispatch) => {
+        db.collection('todos').doc(id).delete();
+    }
+}
+   
+
+    

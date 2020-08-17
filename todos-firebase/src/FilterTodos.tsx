@@ -7,17 +7,18 @@ import { filterTodosAction } from './components/store/actions/TodoAction';
 const FilterTodos = () => {
     const dispatch = useDispatch();
     const inputEl = useRef<HTMLInputElement>(null);
-    useEffect(() => {
-        if (inputEl.current?.value === null) {
-            inputEl.current.value='';
-        }
-    }, [])
-    const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(filterTodosAction(e.target.value))
+useEffect(() => {
+    if (inputEl.current?.value === null) {
+        inputEl.current.value='';
     }
+}, [])
+const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(filterTodosAction(e.target.value))
+}
     return (
         <form>
-            <input ref={inputEl} onChange={onChange} type="text" />
+            <label htmlFor="">Search</label>
+            <input ref={inputEl} onChange={onChange} type="text" placeholder="Searching" />
         </form>
     )
 }
