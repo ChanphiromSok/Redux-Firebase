@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { filterTodosAction } from './components/store/actions/TodoAction';
 
 
-
 const FilterTodos = () => {
     const dispatch = useDispatch();
     const inputEl = useRef<HTMLInputElement>(null);

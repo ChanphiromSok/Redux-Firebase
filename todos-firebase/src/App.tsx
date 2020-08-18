@@ -1,27 +1,37 @@
 import React, { useEffect } from 'react';
+import { Spin } from 'antd';
 import { useDispatch ,useSelector} from 'react-redux';
 import {fetchFirebase } from './components/store/actions/TodoAction';
 import FilterTodos from './FilterTodos';
-import {loadingSelector,filterTodosSelector } from './components/store/ShareData';
+import { filterTodosSelector } from './components/store/ShareData';
 import FormTodo from './components/form/FormTodo';
-const App: React.FC = () => {
+
+// const TodoList = React.lazy<any>(() => import('./components/todo'));   can use
+type DynamicImportType = () => Promise<{ default: React.ComponentType<any>; }>; //test
+type LazyComponentType = React.LazyExoticComponent<React.ComponentType<any>>; //test
+const TodoList: DynamicImportType = () => import('./components/todo'); //test
+const LazyComponent: LazyComponentType = React.lazy(TodoList); //test
+
+
+
+const App = ():JSX.Element => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchFirebase());
-    
  },[dispatch])
   const datas = useSelector(filterTodosSelector)
-  const loading = useSelector(loadingSelector);
+      
+
   return (
-    <div className="App">
+    <>
       <FormTodo />
       <FilterTodos />
-      {loading ? (<h1>No Data</h1>) :
-      datas.map(todo => (<h1 key={todo.id}>{todo.title}</h1>))}
-    </div>
+      <React.Suspense fallback={<Spin></Spin>}> 
+      {datas.map((todo) => (<LazyComponent key={todo.id} data={todo} />))}
+      </React.Suspense>
+    </>
   );
 }
-
 export default App;
 
 //  *** How to get Data from store can use these style also

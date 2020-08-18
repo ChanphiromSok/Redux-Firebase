@@ -7,12 +7,12 @@ export enum TodoTypes{
     ADD_TODO = "ADD_TODO",
     DELETE_TODO = "DELETE_TODO",
     FILTER_TODOS = "FILTER_TODOS",
+    UPDATE_TODO = "UPDATE_TODO",
 
-
-    SONG = "SONG"
-    
+    SET_CURRENT = "SET_CURRENT",
+    CLEAR_CURRENT = "CLEAR_CURRENT",
 }
-export type ActionTypes = TodoTypes.FETCH_REQUEST | TodoTypes.FETCH_SUCCESS | TodoTypes.FETCH_FAILURE | TodoTypes.FILTER_TODOS; 
+export type ActionTypes = TodoTypes.FETCH_REQUEST | TodoTypes.FETCH_SUCCESS | TodoTypes.FETCH_FAILURE | TodoTypes.FILTER_TODOS |TodoTypes.ADD_TODO; 
 // Data Type
 export interface Todos{
     id: number
@@ -22,6 +22,7 @@ export interface Todos{
 // State Type
 export interface TodosState{
     todos: Todos[]
+    current: Todos | null
     loading: boolean
     error: boolean
     filtered: string 
