@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteTodo,setCurrent } from '../components/store/actions/TodoAction';
+import { deleteTodo,setCurrent } from '../store/actions/TodoAction';
 
 
 const TodoList = ({data}:any) => {

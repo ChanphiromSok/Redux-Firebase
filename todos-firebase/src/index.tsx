@@ -1,15 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import 'antd/dist/antd.css';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Switch ,Route} from 'react-router-dom';
 import store from './components/store/store';
+import Routes from './components/routes/index';
+import Navigation from './components/layout/navigation';
+import Login from './components/pages/Login';
+import Register from './components/pages/Register';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Router>
+        <Navigation />
+        <Switch>
+          <Route exact={true} component={Login} path="/" />
+          <Route exact={true} component={Register} path="/register" />
+          <Routes />
+        </Switch>
+     </Router>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

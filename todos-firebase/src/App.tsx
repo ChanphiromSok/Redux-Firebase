@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { Spin } from 'antd';
 import { useDispatch ,useSelector} from 'react-redux';
 import {fetchFirebase } from './components/store/actions/TodoAction';
-import FilterTodos from './FilterTodos';
+import FilterTodos from './components/todos/FilterTodos';
 import { filterTodosSelector } from './components/store/ShareData';
 import FormTodo from './components/form/FormTodo';
 
 // const TodoList = React.lazy<any>(() => import('./components/todo'));   can use
 type DynamicImportType = () => Promise<{ default: React.ComponentType<any>; }>; //test
 type LazyComponentType = React.LazyExoticComponent<React.ComponentType<any>>; //test
-const TodoList: DynamicImportType = () => import('./components/todo'); //test
+const TodoList: DynamicImportType = () => import('./components/todos/todo'); //test
 const LazyComponent: LazyComponentType = React.lazy(TodoList); //test
 
 

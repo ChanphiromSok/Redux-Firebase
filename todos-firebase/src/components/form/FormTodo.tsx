@@ -1,7 +1,7 @@
 import React, { useState ,useEffect} from 'react';
 import {useDispatch,useSelector} from 'react-redux'
 import {Input } from 'antd'
-import { Todos } from '../store/types'
+import { ITodos } from '../store/types'
 import { addTodo,clearCurrent,updateTodo } from '../store/actions/TodoAction';
 import { current } from '../store/ShareData';
 
@@ -9,7 +9,7 @@ import { current } from '../store/ShareData';
 const AddTodoForm = () => {
     const dispatch = useDispatch();
     const isCurrent = useSelector(current)
-    const [todo, setTodo] = useState<Todos>({ id: 52, title: 'hello', completed: true });
+    const [todo, setTodo] = useState<ITodos>({ id: 52, title: 'hello', completed: true });
     useEffect(() => {
         if (isCurrent !== null) {
             setTodo(isCurrent)

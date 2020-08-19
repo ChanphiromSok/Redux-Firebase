@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { filterTodosAction } from './components/store/actions/TodoAction';
+import { filterTodosAction } from '../store/actions/TodoAction';
 
 
 const FilterTodos = () => {

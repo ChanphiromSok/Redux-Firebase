@@ -14,15 +14,15 @@ export enum TodoTypes{
 }
 export type ActionTypes = TodoTypes.FETCH_REQUEST | TodoTypes.FETCH_SUCCESS | TodoTypes.FETCH_FAILURE | TodoTypes.FILTER_TODOS |TodoTypes.ADD_TODO; 
 // Data Type
-export interface Todos{
+export interface ITodos{
     id: number
     title: string
     completed: boolean
 }
 // State Type
-export interface TodosState{
-    todos: Todos[]
-    current: Todos | null
+export interface ITodosState{
+    todos: ITodos[]
+    current: ITodos | null
     loading: boolean
     error: boolean
     filtered: string 

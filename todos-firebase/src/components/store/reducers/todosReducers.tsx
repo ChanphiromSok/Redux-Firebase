@@ -1,9 +1,9 @@
 import { Reducer } from 'redux';
-// import { StateType } from 'typesafe-actions';
-// import {ActionTypes} from '../types'
+import { ITodosState, TodoTypes } from '../types';
 
-import { TodosState ,TodoTypes} from '../types';
-const initialState: TodosState = {
+
+
+const initialState: ITodosState = {
     todos: [],
     loading: false,
     error: false,
@@ -11,8 +11,7 @@ const initialState: TodosState = {
     filtered: '',  
     search: ''
 };
-
-const todosReducers: Reducer<TodosState> = (state = initialState, action) => {
+const todosReducers: Reducer<ITodosState> = (state = initialState, action) => {
     switch (action.type) {
         case TodoTypes.FETCH_REQUEST:
             return {

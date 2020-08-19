@@ -1,12 +1,12 @@
 import { Dispatch } from 'redux';
 import firebase from '../../../firebase';
 import axios from 'axios';
-import { Todos, TodoTypes } from '../types';
+import { ITodos, TodoTypes } from '../types';
 
 
 interface IFetchTodosJSON {
     type: TodoTypes.FETCH_REQUEST
-    payload: Todos[]
+    payload: ITodos[]
 }
 interface IFetchTodos{
     type: TodoTypes.FETCH_REQUEST,
@@ -21,7 +21,7 @@ interface IDeleteTodo{
 }
 interface ISetCurrent{
     type: TodoTypes.SET_CURRENT
-    payload: Todos
+    payload: ITodos
 }
 interface IClearCurrent{
     type: TodoTypes.CLEAR_CURRENT
@@ -33,7 +33,7 @@ interface IUpdateTodo{
 export const fetchTodos = () => { // this func is for testing only
     const url = "https://jsonplaceholder.typicode.com/todos";
     return async (dispatch: Dispatch) => {
-        const res = await axios.get<Todos[]>(url);
+        const res = await axios.get<ITodos[]>(url);
         try {
             dispatch<IFetchTodosJSON>({
                 type: TodoTypes.FETCH_REQUEST,
@@ -67,7 +67,7 @@ export const fetchFirebase = () => {
     }
 };
 
-export const addTodo = (todo: Todos) => {
+export const addTodo = (todo: ITodos) => {
     return async (dispatch: Dispatch) => {
         db.collection('todos').doc().set(todo)
         dispatch<IAddTodo>({
@@ -90,7 +90,7 @@ export const deleteTodo = (_id: number) => {
     }
 };
 
-export const setCurrent = (todo: Todos) => {
+export const setCurrent = (todo: ITodos) => {
     return (dispatch: Dispatch) => {
         dispatch<ISetCurrent>({
             type: TodoTypes.SET_CURRENT,
@@ -108,7 +108,7 @@ export const clearCurrent = () => {
     }
 }
     
-export const updateTodo = (todo:Todos) => {
+export const updateTodo = (todo:ITodos) => {
     return async (dispatch: Dispatch) => {
         const docId = db.collection('todos').where('id', '==', todo.id);
         docId.get().then(querySnap => {

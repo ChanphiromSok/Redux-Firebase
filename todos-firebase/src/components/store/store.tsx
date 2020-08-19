@@ -2,7 +2,8 @@ import { createStore, applyMiddleware,Store } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers/rootReducers';
-import { TodosState } from './types';
+import { ITodosState } from './types';
+import {IAuthState} from './AuthType'
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 // import {RootReducerState} from './reducers/rootReducers'
 
@@ -10,7 +11,8 @@ import { TypedUseSelectorHook, useSelector } from 'react-redux';
 
 // this interface is point to the each children of rootReducer so
 export interface ApplicationState{
-    todosReducer: TodosState
+    todosReducer: ITodosState
+    authReducers: IAuthState
 }
 const middleware = [thunk];
 const store: Store<ApplicationState> = createStore(
