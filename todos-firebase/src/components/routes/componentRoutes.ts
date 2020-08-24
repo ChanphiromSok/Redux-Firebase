@@ -1,17 +1,16 @@
-import Home from '../pages/Home';
-import App from '../../App';
 import { RouteProps } from 'react-router-dom';
+import { lazy } from 'react';
 
 
 interface IRouter extends RouteProps { };
 const componentRoutes: IRouter[] = [
     {
         path: '/home',
-        component: Home,
+        component: lazy(()=> import('../pages/Home')),
         exact: true,
     },{
-        path: '/app',
-        component: App,
+        path: '/',
+        component: lazy(()=> import('../../App')),
         exact: true
     },
 ]

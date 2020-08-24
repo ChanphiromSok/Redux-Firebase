@@ -5,8 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { Span } from './FormRegister';
 import { useForm } from 'react-hook-form';
 import { loginEmail } from '../store/actions/authAction';
-import { auth } from '../store/AuthSelector';
-
+import { auth ,isLogged} from '../store/AuthSelector';
 interface ILogin{
     username: string
     password: string
@@ -14,21 +13,22 @@ interface ILogin{
 
 
 const FormLogin = () => {
-    const isAuth = useSelector(auth);
-     const dispatch = useDispatch();
+    const dispatch = useDispatch();
+    const isAuth = useSelector(auth)
     const history = useHistory();
-    useEffect(() => {
-        if (isAuth) {
-            history.push('/app')
-        }
-    },[isAuth,history])
     const { register,handleSubmit,errors} = useForm<ILogin>();
     const [user, setUser] = React.useState<ILogin>({ username: null!, password: null! });
     const onChangeHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUser({ ...user, [e.target.name]: e.target.value });
     }
+    useEffect(() => {
+        if (isAuth ) {
+            history.push('/')
+        }
+    },[isAuth])
     const onSubmit = () => {
-        dispatch(loginEmail(user))
+        dispatch(loginEmail(user));
+       
     };
     return (
         <>

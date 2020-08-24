@@ -10,16 +10,21 @@ import Navigation from './components/layout/navigation';
 import Login from './components/pages/Login';
 import Register from './components/pages/Register';
 
+
+
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <Router>
         <Navigation />
+        <React.Suspense fallback={<h1>Loading....</h1>}>
         <Switch>
-          <Route exact={true} component={Login} path="/" />
+          <Route exact={true} component={Login} path="/login" />
           <Route exact={true} component={Register} path="/register" />
           <Routes />
         </Switch>
+       </React.Suspense>
      </Router>
     </Provider>
   </React.StrictMode>,

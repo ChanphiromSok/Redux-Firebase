@@ -3,34 +3,38 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom';
-import { auth } from '../store/AuthSelector';
+import { token ,auth,isLogged} from '../store/AuthSelector';
 import {signout} from '../store/actions/authAction'
-
+import firebase from '../../firebase';
 
 
 const Navigation = (): JSX.Element => {
-    const isAuth = useSelector(auth);
     const dispatch = useDispatch();
     const history = useHistory();
+    const isToken = useSelector(token)
+    const isAuth = useSelector(auth)
     const onLogOut = () => {
         dispatch(signout());
-        history.replace('/')
+        history.push('/login')
+        firebase.auth().signOut().then(() => {
+            console.log('Sign out');
+        })
+        window.location.reload();
     }
-
     return (
         <>
             <Wrapper>
                 <Ul>
-                    {isAuth ? ( 
+                    { isToken ||isAuth ? ( 
                             <Ul>
                                 <Li><NavLink to='/home'>Home</NavLink></Li>
-                            <Li><NavLink to='/app'>App</NavLink></Li>
-                            <Li><button onClick={onLogOut}>Log Out</button></Li>
-                        </Ul>) :
+                                <Li><NavLink to='/'>App</NavLink></Li>
+                                <Li><button onClick={onLogOut}>Log Out</button></Li>
+                            </Ul>)
+                            :
                             (<Ul>
-                                <Li><NavLink to='/'>Login</NavLink></Li>
-                            <Li><NavLink to='/register'>Register</NavLink></Li>
-                            
+                                <Li><NavLink to='/login'>Login</NavLink></Li>
+                                <Li><NavLink to='/register'>Register</NavLink></Li>
                             </Ul>)
                     }
                 </Ul>

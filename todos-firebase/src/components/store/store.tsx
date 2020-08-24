@@ -5,19 +5,19 @@ import rootReducer from './reducers/rootReducers';
 import { ITodosState } from './types';
 import {IAuthState} from './AuthType'
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
-// import {RootReducerState} from './reducers/rootReducers'
+import { getFirebase } from 'react-redux-firebase'
 
-// RootReducerState === ApplicationState  (sane data type each reducer)
 
-// this interface is point to the each children of rootReducer so
+const middlewares = [
+    thunk.withExtraArgument(getFirebase)
+  ]
 export interface ApplicationState{
     todosReducer: ITodosState
     authReducers: IAuthState
 }
-const middleware = [thunk];
 const store: Store<ApplicationState> = createStore(
     rootReducer,
-    composeWithDevTools(applyMiddleware(...middleware))
+    composeWithDevTools(applyMiddleware(...middlewares))
 )
 export default store;
 export const TypedUseTodos: TypedUseSelectorHook<ApplicationState> = useSelector;

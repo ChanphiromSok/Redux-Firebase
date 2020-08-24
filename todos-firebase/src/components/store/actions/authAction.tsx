@@ -3,7 +3,6 @@ import firebase from '../../../firebase';
 import {AuthTypes,IUser} from '../AuthType';
 
 
-
 const auth = firebase.auth();
 interface IRegisterSuccess{
     type: AuthTypes.AUTH_REGISTER_SUCCESS
@@ -15,7 +14,7 @@ interface IRegisterFail{
 }
 interface ILoginSuccess{
     type: AuthTypes.AUTH_LOGIN_SUCCESS
-    payload: IUser
+    payload: any
 }
 interface ILoginError{
     type: AuthTypes.AUTH_LOGIN_ERROR,
@@ -23,7 +22,6 @@ interface ILoginError{
 }
 interface ILogOutSuccess{
     type: AuthTypes.AUTH_LOG_OUT_SUCCESS,
-    payload: any
 }
 interface ILogOutErorr{
     type: AuthTypes.AUTH_LOG_OUT_ERROR,
@@ -69,20 +67,28 @@ export const registerEmail = (reg: IUser) => {
             
     }
 }
-export const loginEmail = (user:IUser) => {
+export const loginEmail = (user: IUser) => {
     return async (dispatch: Dispatch) => {
         try {
             await auth.signInWithEmailAndPassword(user.username, user.password).then(data => {
                 if (data.user?.emailVerified) {
-                    dispatch<ILoginSuccess>({
-                        type: AuthTypes.AUTH_LOGIN_SUCCESS,
-                        payload: user
+                    auth.onAuthStateChanged(currentUser => {
+                        if (currentUser) {
+                            ;
+                            dispatch<ILoginSuccess>({
+                                type: AuthTypes.AUTH_LOGIN_SUCCESS,
+                                payload:localStorage.setItem('Auth', currentUser.refreshToken)
+                            })
+                        } else {
+                            dispatch<ILoginError>({
+                                type: AuthTypes.AUTH_LOGIN_ERROR,
+                                payload: "User doest Exist"
+                            })
+                        }
                     })
-                    localStorage.setItem('Auth', 'true');
 
                 }
-            })
-                .catch(function (error){
+            }).catch(function (error){
                     const errorCode = error.code;
                     const errorMessage = error.message;
                     console.log(`error authentication ${errorCode}`);
@@ -108,8 +114,9 @@ export const signout = () => async (dispatch:Dispatch) => {
       firebase
       .auth()
       .signOut()
-      .then(() => {
-        dispatch({ type: AuthTypes.AUTH_LOG_OUT_SUCCESS });
+          .then(() => {
+          localStorage.removeItem('Auth')
+        dispatch<ILogOutSuccess>({ type: AuthTypes.AUTH_LOG_OUT_SUCCESS });
       })
       .catch(() => {
         dispatch<ILogOutErorr>({ 
@@ -124,3 +131,4 @@ export const signout = () => async (dispatch:Dispatch) => {
       });
     }
   };
+

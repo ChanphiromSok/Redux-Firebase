@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components'
 import { useForm } from "react-hook-form";
+
 import _ from 'lodash/fp';
 import { registerEmail } from '../store/actions/authAction';
 import { IUser } from '../store/AuthType';

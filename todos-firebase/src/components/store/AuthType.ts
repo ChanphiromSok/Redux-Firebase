@@ -16,10 +16,9 @@ export interface IUser {
 }
 
 export interface IAuthState {
-    isAuthentication: null | boolean
-    isLoading: boolean
-    auth: any
+    authError: string
     isEmty: boolean
-    user: null | IUser
-    error: null
+    isLoad: boolean
+    isAuth: boolean
+    token: any
 }
