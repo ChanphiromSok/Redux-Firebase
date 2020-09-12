@@ -15,7 +15,7 @@ export enum TodoTypes{
 export type ActionTypes = TodoTypes.FETCH_REQUEST | TodoTypes.FETCH_SUCCESS | TodoTypes.FETCH_FAILURE | TodoTypes.FILTER_TODOS |TodoTypes.ADD_TODO; 
 // Data Type
 export interface ITodos{
-    id: number
+    id: string
     title: string
     completed: boolean
 }

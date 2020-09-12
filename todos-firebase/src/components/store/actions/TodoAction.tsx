@@ -55,21 +55,36 @@ export const filterTodosAction = (text: string) => ({
     payload: text
 });
 
+interface IFetchFailure{
+    type: TodoTypes.FETCH_FAILURE
+    payload: Array<[]>
+}
 export const fetchFirebase = () => {
     return async (dispatch: Dispatch) => {
-        db.collection('todos').onSnapshot(snapShot => {
-            const getTodos = snapShot.docs.map((doc) => doc.data());
-            dispatch<IFetchTodos>({
-                type: TodoTypes.FETCH_REQUEST,
-                payload: getTodos
-            })
-        });
+        // check if user loggin let it fetching data from firebae else not
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                db.collection('todos').onSnapshot(snapShot => {
+                    const getTodos = snapShot.docs.map((doc) => doc.data());
+                    dispatch<IFetchTodos>({
+                        type: TodoTypes.FETCH_REQUEST,
+                        payload: getTodos
+                    })
+                });
+            } else {
+                dispatch<IFetchFailure>({
+                    type: TodoTypes.FETCH_FAILURE,
+                    payload: []
+                })
+           }
+       })
     }
 };
 
 export const addTodo = (todo: ITodos) => {
     return async (dispatch: Dispatch) => {
         db.collection('todos').doc().set(todo)
+        
         dispatch<IAddTodo>({
             type: TodoTypes.ADD_TODO
         })

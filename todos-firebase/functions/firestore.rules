@@ -1,0 +1,18 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // match /{document=**} {
+    //   allow read, write: if
+    //       request.time < timestamp.date(2020, 9, 12);
+    // }
+    // match /todos/{todosId} {
+    // 	allow read , write: if request.auth.uid !=null;
+    // }
+    match /todos/{todosId} {
+    allow read ;
+    allow write, update, delete: if request.auth.uid =='FPw7vjDmzmTd8FS4OxKGV3x8lYi2';
+    }
+  }
+}
+// line 12 is allow all user to read only
+//  line 13 in allow only user that has uid = 'FPw7vjDmzmTd8FS4OxKGV3x8lYi2' have permission read write delete update; 

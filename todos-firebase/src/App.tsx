@@ -13,7 +13,6 @@ const TodoList: DynamicImportType = () => import('./components/todos/todo'); //t
 const LazyComponent: LazyComponentType = React.lazy(TodoList); //test
 
 
-
 const App = ():JSX.Element => {
   const dispatch = useDispatch();
   useEffect(() => {

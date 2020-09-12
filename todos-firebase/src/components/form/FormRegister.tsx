@@ -26,7 +26,7 @@ const FormRegister = () => {
             <form onSubmit={handleSubmit(onSubmitReg)}>
                 <input 
                     name="username"
-                   
+                    autoComplete="on"
                     onChange={onChangeHandler}
                     type="text"
                     ref={register({ required: true, maxLength: 20 })} />
@@ -34,7 +34,7 @@ const FormRegister = () => {
                     {_.get("username.type", errors) === "maxLength" && (<Span>20 length Only </Span>)}
                 <input 
                     name="password"
-                    
+                    autoComplete="on"
                     onChange={onChangeHandler}
                     type="password"
                     ref={register({ required: true, minLength: 8 })} />

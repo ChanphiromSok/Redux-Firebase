@@ -32,10 +32,14 @@ export const registerEmail = (reg: IUser) => {
     return async (dispatch: Dispatch) => {
         try {
             await auth.createUserWithEmailAndPassword(reg.username,
-                reg.password).then(() => {
+                reg.password).then((cred) => {
+                  
                         auth.onAuthStateChanged(function (userData) {
                             userData?.sendEmailVerification();
                         })
+                    return firebase.firestore().collection('users').doc(cred.user?.uid).set({
+                        id: cred.user?.uid,email: reg.username,password: reg.password
+                    })
                     }
                 ).then(() => {
                     auth.onAuthStateChanged(function (userData) {
@@ -74,7 +78,7 @@ export const loginEmail = (user: IUser) => {
                 if (data.user?.emailVerified) {
                     auth.onAuthStateChanged(currentUser => {
                         if (currentUser) {
-                            ;
+                            
                             dispatch<ILoginSuccess>({
                                 type: AuthTypes.AUTH_LOGIN_SUCCESS,
                                 payload:localStorage.setItem('Auth', currentUser.refreshToken)

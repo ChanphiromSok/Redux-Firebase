@@ -7,27 +7,17 @@ import { isLogged } from '../store/AuthSelector';
 const ProtectedRoute = ({ component: Component, ...rest }: any) => {
     return (
       <>
-           <Route
-    {...rest}
-    render={props => {
-      if (isLogged && window.localStorage.getItem('Auth') ) {
-        return <Component {...props} />;
-      } else {
-        return (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: {
-                from: props.location
-              }
-            }}
-          />
-        );
-      }
-    }}
-  />
-    </>
-    )
+        <Route {...rest} render={props => {
+          if (isLogged && window.localStorage.getItem('Auth') ) {
+            return <Component {...props} />;
+          } else {
+            return (
+              <Redirect to={{ pathname: "/login",state: {from: props.location}}}/>
+            );}
+        }} //props 
+        />
+      </>
+  )
 };
   
 export default ProtectedRoute;

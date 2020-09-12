@@ -5,7 +5,8 @@ import { useHistory } from 'react-router-dom';
 import { Span } from './FormRegister';
 import { useForm } from 'react-hook-form';
 import { loginEmail } from '../store/actions/authAction';
-import { auth ,isLogged} from '../store/AuthSelector';
+import { auth } from '../store/AuthSelector';
+import firebase from '../../firebase'
 interface ILogin{
     username: string
     password: string
@@ -22,9 +23,12 @@ const FormLogin = () => {
         setUser({ ...user, [e.target.name]: e.target.value });
     }
     useEffect(() => {
-        if (isAuth ) {
-            history.push('/')
-        }
+        firebase.auth().onAuthStateChanged(user => {
+            if (user?.uid && user.emailVerified) {
+                history.push('/')
+            }
+        })
+        // eslint-disable-next-line
     },[isAuth])
     const onSubmit = () => {
         dispatch(loginEmail(user));
@@ -33,11 +37,11 @@ const FormLogin = () => {
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <input onChange={onChangeHandle} name="username" type="text" 
+                <input onChange={onChangeHandle} name="username" type="text" autoComplete="on"
                     ref={register({ required: true, maxLength: 20 })} />
                     {_.get("username.type", errors) === "required" && (<Span>Field is required</Span>)}
                     {_.get("username.type", errors) === "maxLength" && (<Span>20 length Only </Span>)}
-                <input onChange={onChangeHandle} name="password" type="password" 
+                <input onChange={onChangeHandle} name="password" type="password" autoComplete="on"
                     ref={register({ required: true, minLength: 8 })} />
                     {_.get("password.type",errors)=== "required" && (<Span>Password is required</Span>)}
                     {_.get("password.type",errors)=== "minLength" &&(<Span>Min Length 8</Span>)}

@@ -4,25 +4,29 @@ import {Input } from 'antd'
 import { ITodos } from '../store/types'
 import { addTodo,clearCurrent,updateTodo } from '../store/actions/TodoAction';
 import { current } from '../store/ShareData';
-
+import firebase from '../../firebase';
 
 const AddTodoForm = () => {
     const dispatch = useDispatch();
     const isCurrent = useSelector(current)
-    const [todo, setTodo] = useState<ITodos>({ id: 52, title: 'hello', completed: true });
+    const getId:string=firebase.firestore().collection('todos').doc().id;
+    const [todo, setTodo] = useState<ITodos>({ id: '', title: '', completed: true });
     useEffect(() => {
         if (isCurrent !== null) {
             setTodo(isCurrent)
-        } else {
-            setTodo({ id: 0, title: '', completed: true })
+        } else { 
+            setTodo({ id: getId, title: '', completed: true })
         }
+        //eslint-disable-next-line
     }, [isCurrent])
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (isCurrent === null) {
             dispatch(addTodo(todo))
+            setTodo({ id: getId, title: '', completed: true }) // when submi it clear the previous value so id got new from getid
         } else {
             dispatch(updateTodo(todo))
+            setTodo({ id: getId, title: '', completed: true })
         }
         clearAll();
     }
@@ -39,7 +43,7 @@ const AddTodoForm = () => {
         return (
         <>      
             <form onSubmit={onSubmit} style={{width:800}}>
-                    <input type="number" value={id} name="id" onChange={onChange} autoComplete="off" />
+                    <input type="number" value={id} name="id" onChange={onChange} autoComplete="off" style={{display:"none"}} />
                     <input type="text" value={title} name="title" onChange={onChange} autoComplete="off"/>
                     <input type="radio" name="completed" onClick={onSelect} defaultChecked={completed} />
                     <input type="radio"  name="completed"  onClick={onSelect} defaultChecked={completed}/>

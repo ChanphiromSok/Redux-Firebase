@@ -1,31 +1,38 @@
-import React from 'react'
-import { useSelector, useDispatch } from 'react-redux';
+import React,{ useState} from 'react'
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom';
-import { token ,auth,isLogged} from '../store/AuthSelector';
+// import { token ,auth,isLogged} from '../store/AuthSelector';
 import {signout} from '../store/actions/authAction'
 import firebase from '../../firebase';
 
 
 const Navigation = (): JSX.Element => {
     const dispatch = useDispatch();
+    const [show, setShow] = useState<boolean>(false);
     const history = useHistory();
-    const isToken = useSelector(token)
-    const isAuth = useSelector(auth)
+    firebase.auth().onAuthStateChanged(user => {
+        if (user?.emailVerified && user.uid) {
+            setShow(true)
+        } else {
+            setShow(false)
+        }
+    })
+
     const onLogOut = () => {
         dispatch(signout());
         history.push('/login')
         firebase.auth().signOut().then(() => {
             console.log('Sign out');
         })
-        window.location.reload();
+        // window.location.reload();
     }
     return (
         <>
             <Wrapper>
                 <Ul>
-                    { isToken ||isAuth ? ( 
+                    { show ? ( 
                             <Ul>
                                 <Li><NavLink to='/home'>Home</NavLink></Li>
                                 <Li><NavLink to='/'>App</NavLink></Li>
